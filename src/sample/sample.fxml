@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import java.lang.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import sample.viewModel.JoystickController?>
+<fx:root type="javafx.scene.layout.Pane" prefHeight="347.0" prefWidth="911.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button layoutX="14.0" layoutY="32.0" mnemonicParsing="false" text="Connect" />
+      <Button layoutX="86.0" layoutY="32.0" mnemonicParsing="false" text="Load data" />
+      <Button layoutX="168.0" layoutY="32.0" mnemonicParsing="false" text="Calculate path" />
+      <RadioButton layoutX="357.0" layoutY="36.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="102.0" selected="true" text="Autopilot">
+         <toggleGroup>
+            <ToggleGroup fx:id="radioSelect" />
+         </toggleGroup></RadioButton>
+      <RadioButton layoutX="731.0" layoutY="36.0" mnemonicParsing="false" text="Manual" toggleGroup="$radioSelect" />
+      <Canvas height="250.0" layoutX="14.0" layoutY="77.0" width="247.0" />
+      <Slider layoutX="664.0" layoutY="302.0" prefHeight="31.0" prefWidth="185.0" />
+      <Slider layoutX="630.0" layoutY="111.0" orientation="VERTICAL" prefHeight="182.0" prefWidth="17.0" />
+      <JoystickController layoutX="754.0" layoutY="202.0"/>
+<!--      <Circle fill="#d0d0d0" layoutX="754.0" layoutY="202.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" />-->
+<!--      <Circle fx:id="smallCircle" layoutX="754.0" layoutY="202.0" onMouseDragged="#circleOnMouseDraggedEventHandler" onMousePressed="#circleOnMousePressedEventHandler" onMouseReleased="#circleOnMouseReleasedEventHandler" radius="50.0" stroke="BLACK" strokeType="INSIDE">-->
+<!--         <fill>-->
+<!--            <LinearGradient endX="0.883495145631068" endY="1.0" startY="0.014563106796116498">-->
+<!--               <stops>-->
+<!--                  <Stop color="BLACK" />-->
+<!--                  <Stop color="WHITE" offset="1.0" />-->
+<!--               </stops>-->
+<!--            </LinearGradient>-->
+<!--         </fill></Circle>-->
+      <Button layoutX="467.0" layoutY="31.0" mnemonicParsing="false" onMouseClicked="#openFileDialogue" text="Load" />
+      <TextArea fx:id="script" editable="false" layoutX="312.0" layoutY="75.0" prefHeight="250.0" prefWidth="247.0" />
+      <Label layoutX="708.0" layoutY="71.0" prefHeight="31.0" prefWidth="93.0" text="&lt;- aileron -&gt;" />
+      <Label layoutX="737.0" layoutY="323.0" prefHeight="21.0" prefWidth="65.0" text="rudder" />
+      <Label layoutX="820.0" layoutY="199.0" prefHeight="21.0" prefWidth="114.0" rotate="90.0" text="&lt;- elevator -&gt;" />
+      <Label layoutX="594.0" layoutY="190.0" prefHeight="17.0" prefWidth="52.0" rotate="-90.0" text="throttle" />
+   </children>
+</fx:root>

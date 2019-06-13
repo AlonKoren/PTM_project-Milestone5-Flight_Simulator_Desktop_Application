@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<fx:root type="javafx.scene.layout.Pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="406.0" prefWidth="364.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button layoutX="26.0" layoutY="36.0" mnemonicParsing="false" text="Connect" />
+      <Button layoutX="117.0" layoutY="36.0" mnemonicParsing="false" text="Load data" />
+      <Button layoutX="218.0" layoutY="36.0" mnemonicParsing="false" text="Calculate path" />
+      <Canvas height="302.0" layoutX="20.0" layoutY="81.0" width="316.0" />
+   </children>
+</fx:root>
