@@ -1,23 +1,26 @@
 package sample.viewModel;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.canvas.Canvas;
+import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import view.MapDisplayer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class MapController extends Pane {
 
     @FXML
     MapDisplayer mapCanvas;
 
+    private static final String folderPath="./src/sample/CSV/";
 
     public MapController() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../JavaFX Components/map.fxml"));
@@ -29,53 +32,75 @@ public class MapController extends Pane {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
-        readCSV();
+//        readCSV();
     }
 
-private static final String COMMA_DELIMITER=",";
-
-    public void readCSV() {
-        File fileCSV = new File("C:\\Users\\Alon Koren\\Desktop\\PTM Project\\javaFX\\src\\sample\\map-Honolulu.csv");
-        double[][] coordinates;
-        double max;
-        double x;
-        double y;
-        double distance;
-        List<List<String>> records = new ArrayList<>();
-        try (Scanner scanner = new Scanner(fileCSV)) {
-            while (scanner.hasNextLine()) {
-                records.add(getRecordFromLine(scanner.nextLine()));
-            }
+    public void readCSV(File fileCSV) {
+//        File fileCSV = new File("./src/sample/map-Honolulu.csv");
+        try {
+            mapCanvas.setMapData(fileCSV);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-//        records.forEach(strings -> {
-//            System.out.println(strings.toString());
-//        });
-        x=Double.parseDouble(records.get(0).get(0));
-        y=Double.parseDouble(records.get(0).get(1));
-        distance=Double.parseDouble(records.get(1).get(0));
-        List<List<String>> lists = records.subList(2, records.size());
-        coordinates = lists.stream().map(strings -> strings.stream().mapToDouble(Double::parseDouble).toArray()).toArray(double[][]::new);
-        max= Arrays.stream(coordinates).flatMapToDouble(Arrays::stream).max().getAsDouble();
-        mapCanvas.setMapData(coordinates,max,x,y, distance);
-        System.out.println(max);
-        mapCanvas.redraw(max-100);
-//        System.out.println("Gil say:");
-//        for (double[] coordinate : coordinates) {
-//            System.out.println(Arrays.toString(coordinate));
-//        }
-
+        mapCanvas.redraw();
+        mapCanvas.movePlane(10,10);
     }
-    private List<String> getRecordFromLine(String line) {
-        List<String> values = new ArrayList<String>();
-        try (Scanner rowScanner = new Scanner(line)) {
-            rowScanner.useDelimiter(COMMA_DELIMITER);
-            while (rowScanner.hasNext()) {
-                values.add(rowScanner.next());
-            }
-            return values;
-        }
 
+    @FXML
+    public void openFileDialogue(MouseEvent mouseEvent)
+    {
+        System.out.println("Choose CSV file");
+        FileChooser chooser=new FileChooser();
+        chooser.setInitialDirectory(new File(folderPath));
+        File file = chooser.showOpenDialog(null);
+        if(file!=null)
+        {
+            readCSV(file);
+        }
+    }
+    @FXML
+    public void connectToServer(MouseEvent mouseEvent)
+    {
+        Ip_PortController root=new Ip_PortController();
+        Stage stage = new Stage();
+        stage.setTitle("Enter IP and Port");
+        stage.setScene(new Scene(root));
+        stage.show();
+
+        StringProperty ipProperty = new SimpleStringProperty();
+        StringProperty portProperty=new SimpleStringProperty();
+        root.bind(ipProperty,portProperty);
+        portProperty.addListener((observable, oldValue, newValue) -> {
+            String ip=ipProperty.get();
+            String port=newValue;
+            //TODO
+            System.out.println("sim:"+ip+":"+port);
+
+        });
+    }
+
+    public void selectDestination(MouseEvent mouseEvent)
+    {
+        //System.out.println(mouseEvent.getX()+","+mouseEvent.getY());
+        mapCanvas.markDestByMouse(mouseEvent.getX(),mouseEvent.getY());
+    }
+
+    public void calcPath(MouseEvent mouseEvent)
+    {
+        Ip_PortController root=new Ip_PortController();
+        Stage stage = new Stage();
+        stage.setTitle("Enter IP and Port");
+        stage.setScene(new Scene(root));
+        stage.show();
+
+        StringProperty ipProperty = new SimpleStringProperty();
+        StringProperty portProperty=new SimpleStringProperty();
+        root.bind(ipProperty,portProperty);
+        portProperty.addListener((observable, oldValue, newValue) -> {
+            String ip=ipProperty.get();
+            String port=newValue;
+            //TODO
+            System.out.println("ptm:"+ip+":"+port);
+        });
     }
 }
