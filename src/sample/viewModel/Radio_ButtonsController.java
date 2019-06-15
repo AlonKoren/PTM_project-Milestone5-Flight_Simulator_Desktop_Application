@@ -1,7 +1,9 @@
 package sample.viewModel;
 
 import javafx.beans.property.Property;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -17,6 +19,7 @@ public class Radio_ButtonsController extends Pane {
     private static final String folderPath="../PTM2 Project/scripts";
 
     Property<String> scriptProperty=new SimpleStringProperty();
+    Property<Boolean> booleanProperty=new SimpleBooleanProperty();
 
     public Radio_ButtonsController() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../JavaFX Components/radio_buttons.fxml"));
@@ -27,6 +30,8 @@ public class Radio_ButtonsController extends Pane {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+
+
     }
     public void openFileDialogue(MouseEvent mouseEvent)
     {
@@ -62,5 +67,21 @@ public class Radio_ButtonsController extends Pane {
 
     public Property<String> scriptPropertyProperty() {
         return scriptProperty;
+    }
+
+    public void bindRadio(Property<Boolean> booleanProperty)
+    {
+        booleanProperty.bind(this.booleanProperty);
+    }
+
+    @FXML
+    void autoPilotEnable(MouseEvent mouseEventvent)
+    {
+        this.booleanProperty.setValue(true);
+    }
+    @FXML
+    void autoPilotDisable(MouseEvent mouseEventvent)
+    {
+        this.booleanProperty.setValue(false);
     }
 }

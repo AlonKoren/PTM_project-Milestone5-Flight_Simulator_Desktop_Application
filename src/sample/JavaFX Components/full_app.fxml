@@ -5,15 +5,15 @@
 <?import sample.viewModel.MapController?>
 <?import sample.viewModel.Right_SideController?>
 
-<fx:root type="javafx.scene.control.SplitPane" dividerPositions="0.3416592328278323" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="456.0" prefWidth="1123.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root dividerPositions="0.3416592328278323" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="456.0" prefWidth="1123.0" type="javafx.scene.control.SplitPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
-           <MapController maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="454.0" />
+           <MapController fx:id="leftSide" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="454.0" />
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
-            <Right_SideController dividerPositions="0.15265486725663716" prefWidth="735.0" />
+            <Right_SideController fx:id="rightSide" dividerPositions="0.15265486725663716" prefWidth="735.0" />
          </children></AnchorPane>
   </items>
 </fx:root>

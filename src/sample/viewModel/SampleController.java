@@ -1,5 +1,12 @@
 package sample.viewModel;
 
+import alon.flightsim.FlyMain;
+import alon.flightsim.client.Client;
+import alon.flightsim.client.SimpleClient;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.SplitPane;
@@ -16,67 +23,30 @@ import java.util.stream.Stream;
 
 public class SampleController extends SplitPane
 {
-//    @FXML
-//    private TextArea script;
-//
-//    @FXML
-//    private Circle smallCircle;
-//    double originalSceneX, originalSceneY;
-//    double originalTranslateX, originalTranslateY;
+    Client client=new SimpleClient();
 
-    static final String folderPath="../PTM2 Project/scripts";
+    Property<Boolean> booleanProperty=new SimpleBooleanProperty();
+
+    @FXML
+    MapController leftSide;
+
+    @FXML
+    Right_SideController rightSide;
 
 
     public SampleController() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../JavaFX Components/full_app.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
-
         try {
             fxmlLoader.load();
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+
     }
 
-//    public void openFileDialogue(MouseEvent mouseEvent)
-//    {
-//        System.out.println("hello");
-//        FileChooser chooser=new FileChooser();
-//        chooser.setInitialDirectory(new File(folderPath));
-//        File file = chooser.showOpenDialog(null);
-//        if(file!=null)
-//        {
-//            try
-//            {
-//                Stream<String> stream = Files.lines(file.toPath());
-//                StringBuilder sb = new StringBuilder();
-//                stream.forEach(str -> sb.append(str).append("\n"));
-//                showScript(sb.toString());
-//            }
-//            catch (IOException e)
-//            {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-//
-//    private void showScript(String script)
-//    {
-//        this.script.appendText(script);
-//    }
-//
-//    public void circleOnMouseDraggedEventHandler(MouseEvent mouseEvent) {
-//        System.out.println("circleOnMouseDraggedEventHandler");
-//    }
-//
-//    public void circleOnMousePressedEventHandler(MouseEvent mouseEvent) {
-//        System.out.println("circleOnMousePressedEventHandler");
-//
-//    }
-//
-//    public void circleOnMouseReleasedEventHandler(MouseEvent mouseEvent) {
-//        System.out.println("circleOnMouseReleasedEventHandler");
-//
-//    }
+
+
+
 }
