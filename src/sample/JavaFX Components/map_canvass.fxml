@@ -6,11 +6,12 @@
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.layout.Pane?>
 
+<?import sample.view.*?>
 <fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" type="javafx.scene.layout.Pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Canvas fx:id="mapCanvas" height="400.0" width="400.0" />
-      <Canvas fx:id="pointCanvas" height="400.0" width="400.0" />
-      <Canvas fx:id="xCanvas" height="400.0" width="400.0"  />
-      <Canvas fx:id="planeCanvas" height="400.0" width="400.0" />
+      <MapCanvas fx:id="mapCanvas" height="400.0" width="400.0" />
+      <PointCanvas fx:id="pointCanvas" height="400.0" width="400.0" />
+      <XCanvas fx:id="xCanvas" height="400.0" width="400.0"  />
+      <PlaneCanvas fx:id="planeCanvas" height="400.0" width="400.0" />
    </children>
 </fx:root>

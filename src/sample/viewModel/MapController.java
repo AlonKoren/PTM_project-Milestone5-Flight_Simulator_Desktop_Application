@@ -15,6 +15,9 @@ import sample.Model.PTMClient;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.function.DoubleUnaryOperator;
+import java.util.function.Function;
 
 public class MapController extends Pane {
 
@@ -50,7 +53,7 @@ public class MapController extends Pane {
             e.printStackTrace();
         }
         mapCanvas.redraw();
-        mapCanvas.movePlane(10,10);
+//        mapCanvas.movePlane(10,10);
     }
 
     @FXML
@@ -88,38 +91,57 @@ public class MapController extends Pane {
 
         });
     }
-
+    boolean flag=false;
+    StringProperty ipProperty = new SimpleStringProperty();
+    StringProperty portProperty=new SimpleStringProperty();
     public void selectDestination(MouseEvent mouseEvent)
     {
         //System.out.println(mouseEvent.getX()+","+mouseEvent.getY());
         mapCanvas.markDestByMouse(mouseEvent.getX(),mouseEvent.getY());
+        if (flag){
+            calcPath(ipProperty.get(),portProperty.get());
+        }
     }
+
 
     public void calcPath(MouseEvent mouseEvent)
     {
-        Ip_PortController root=new Ip_PortController();
-        Stage stage = new Stage();
-        stage.setTitle("Enter IP and Port");
-        stage.setScene(new Scene(root));
-        stage.show();
+        if (!flag) {
+            Ip_PortController root = new Ip_PortController();
+            Stage stage = new Stage();
+            stage.setTitle("Enter IP and Port");
+            stage.setScene(new Scene(root));
+            stage.show();
+            root.bind(ipProperty, portProperty);
+            portProperty.addListener((observable, oldValue, newValue) -> {
+                String ip=ipProperty.get();
+                String port=newValue;
+                flag=true;
+                //TODO
+                calcPath(ip,port);
+            });
+        }
+        else {
+            calcPath(ipProperty.get(),portProperty.get());
+        }
 
-        StringProperty ipProperty = new SimpleStringProperty();
-        StringProperty portProperty=new SimpleStringProperty();
-        root.bind(ipProperty,portProperty);
-        portProperty.addListener((observable, oldValue, newValue) -> {
-            String ip=ipProperty.get();
-            String port=newValue;
-            //TODO
-            try {
-                PTMClient ptmClient=new PTMClient(ip,Integer.parseInt(port));
-                String ans = ptmClient.sendMatrix(mapCanvas.getCoordinates(), (int) mapCanvas.planeX, (int) mapCanvas.planeY, mapCanvas.destX, mapCanvas.destY);
-                ptmClient.close();
-                System.out.println(ans);
-                mapCanvas.showPoints(ans);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            System.out.println("ptm:"+ip+":"+port);
-        });
+
+    }
+
+    private void calcPath(String ip,String port){
+        try {
+            PTMClient ptmClient=new PTMClient(ip,Integer.parseInt(port));
+            double[][] doubles = Arrays.stream(mapCanvas.getCoordinates())
+                    .map(doubles1 -> Arrays.stream(doubles1)
+                            .map(d -> d+30).toArray()).toArray(double[][]::new);
+            String ans = ptmClient.sendMatrix(doubles, (int) mapCanvas.planeCanvas.getPlaneX(), (int) mapCanvas.planeCanvas.getPlaneY(),
+                    (int)mapCanvas.xCanvas.getDestX(), (int)mapCanvas.xCanvas.getDestY());
+            ptmClient.close();
+            System.out.println(ans);
+            mapCanvas.showPoints(ans);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("ptm:"+ip+":"+port);
     }
 }
