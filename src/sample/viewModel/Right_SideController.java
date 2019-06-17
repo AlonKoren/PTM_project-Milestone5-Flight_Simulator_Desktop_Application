@@ -58,12 +58,9 @@ public class Right_SideController extends SplitPane {
         });
 
         displayScript.scriptProperty.bind(radioButtons.scriptProperty);
-        displayScript.scriptProperty.addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                flyMain.runSimulator(newValue);
+        displayScript.scriptProperty.addListener((observable, oldValue, newValue) -> {
+            flyMain.runSimulator(newValue);
 //                System.out.println(newValue);
-            }
         });
         radioButtons.bindRadio(autopilotProperty,manualProperty);
     }

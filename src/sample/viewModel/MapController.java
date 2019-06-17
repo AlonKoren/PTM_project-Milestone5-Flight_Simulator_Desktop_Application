@@ -92,10 +92,12 @@ public class MapController extends Pane {
         });
     }
     boolean flag=false;
+    boolean isclick=false;
     StringProperty ipProperty = new SimpleStringProperty();
     StringProperty portProperty=new SimpleStringProperty();
     public void selectDestination(MouseEvent mouseEvent)
     {
+        isclick=true;
         //System.out.println(mouseEvent.getX()+","+mouseEvent.getY());
         mapCanvas.markDestByMouse(mouseEvent.getX(),mouseEvent.getY());
         if (flag){
@@ -129,6 +131,7 @@ public class MapController extends Pane {
     }
 
     private void calcPath(String ip,String port){
+        if (!isclick) return;
         try {
             PTMClient ptmClient=new PTMClient(ip,Integer.parseInt(port));
             double[][] doubles = Arrays.stream(mapCanvas.getCoordinates())

@@ -138,4 +138,5 @@ public class MapDisplayer extends Pane
     {
         return mapCanvas.getCoordinates();
     }
+
 }
