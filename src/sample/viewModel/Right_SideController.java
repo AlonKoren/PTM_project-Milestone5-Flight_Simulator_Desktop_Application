@@ -1,6 +1,7 @@
 package sample.viewModel;
 
 import alon.flightsim.FlyMain;
+import alon.flightsim.client.Client;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
@@ -21,7 +22,8 @@ public class Right_SideController extends SplitPane {
     JoystickController joystick;
 
     FlyMain flyMain=new FlyMain();
-    Property<Boolean> booleanProperty=new SimpleBooleanProperty();
+    Property<Boolean> autopilotProperty=new SimpleBooleanProperty();
+    Property<Boolean> manualProperty=new SimpleBooleanProperty();
 
 
     public Right_SideController() {
@@ -33,12 +35,26 @@ public class Right_SideController extends SplitPane {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+        joystick.setDisable(true);
         bind();
     }
     private void bind(){
-        booleanProperty.addListener((observable, oldValue, newValue) -> {
-            System.out.println((newValue?"enable":"disable")+" autopilot");
-            flyMain.setAutoPilot(newValue);
+        autopilotProperty.addListener((observable, oldValue, newValue) -> {
+            if (newValue)
+            {
+                System.out.println("enable" + " autopilot");
+                joystick.setDisable(true);
+                flyMain.setAutoPilot(true);
+            }
+        });
+        manualProperty.addListener((observable, oldValue, newValue) -> {
+            if (newValue)
+            {
+                System.out.println(("disable")+" autopilot");
+                joystick.setDisable(false);
+                joystick.getCurrentValues();
+                flyMain.setAutoPilot(false);
+            }
         });
 
         displayScript.scriptProperty.bind(radioButtons.scriptProperty);
@@ -49,6 +65,9 @@ public class Right_SideController extends SplitPane {
 //                System.out.println(newValue);
             }
         });
-        radioButtons.bindRadio(booleanProperty);
+        radioButtons.bindRadio(autopilotProperty,manualProperty);
+    }
+    public void setClient(Client client) {
+        joystick.setClient(client);
     }
 }

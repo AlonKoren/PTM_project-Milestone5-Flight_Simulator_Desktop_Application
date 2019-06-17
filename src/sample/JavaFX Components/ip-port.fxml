@@ -10,7 +10,7 @@
       <Label layoutX="20.0" layoutY="27.0" prefHeight="21.0" prefWidth="25.0" text="IP:" />
       <Label layoutX="20.0" layoutY="65.0" prefHeight="21.0" prefWidth="44.0" text="Port:" />
       <TextField fx:id="ipTextField" layoutX="55.0" layoutY="22.0" text="Localhost" />
-      <TextField fx:id="portTextField" layoutX="55.0" layoutY="60.0" />
+      <TextField fx:id="portTextField" layoutX="55.0" layoutY="60.0" text="5402" />
       <Button fx:id="accept" layoutX="92.0" layoutY="100.0" mnemonicParsing="false" onMousePressed="#sendData" onMouseReleased="#closeWindow" text="Accept" />
    </children>
 </fx:root>

@@ -1,21 +1,35 @@
-package view;
+package sample.viewModel;
 
 
+import alon.flightsim.client.Client;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.io.IOException;
+import java.util.*;
 
-public class MapDisplayer extends Canvas
+public class MapDisplayer extends Pane
 {
+    @FXML
+    Canvas mapCanvas;
+
+    @FXML
+    Canvas planeCanvas;
+
+    @FXML
+    Canvas xCanvas;
+
+    @FXML
+    Canvas pointCanvas;
+
     double[][] coordinates;
     double initX, initY;
     double distance;
@@ -26,6 +40,7 @@ public class MapDisplayer extends Canvas
     double max;
     int destX, destY; // position of plane dest
     double planeX, planeY; // position of plane.
+    Client client;
 //    String path;
 //    double initMapPlaneX, initMapPlaneY;
 
@@ -33,15 +48,27 @@ public class MapDisplayer extends Canvas
     public boolean isMapLoaded;
     public boolean isPathExists;
     public boolean isPlaneExists;
+    public boolean isPointExists;
 
 
 
     public MapDisplayer()
     {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../JavaFX Components/map_canvass.fxml"));
+        fxmlLoader.setRoot(this);
+        fxmlLoader.setController(this);
+
+        try {
+            fxmlLoader.load();
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+
         isMarkedOnMap = false;
         isMapLoaded = false;
         isPathExists = false;
         isPlaneExists = true;
+        isPointExists=false;
         //redraw();
 
     }
@@ -83,26 +110,21 @@ public class MapDisplayer extends Canvas
         this.initY=y;
         this.distance = distance;
         this.max = max= Arrays.stream(coordinates).flatMapToDouble(Arrays::stream).max().getAsDouble();
-        this.width = (double)(this.getWidth()) ;
-        this.height = (double)(this.getHeight()) ;
+        this.width = (double)(mapCanvas.getWidth()) ;
+        this.height = (double)(mapCanvas.getHeight()) ;
         this.widthBlock = width / coordinates[0].length;
         this.heightBlock = height / coordinates.length;
     }
 
-    private void reprint() {
-        if(isMapLoaded)
-            redraw();
-        if (isMarkedOnMap)
-            markDestByMouse(destX,destY);
-        if (isPlaneExists)
-            movePlane(planeX,planeY);
-    }
+
 
     public void redraw()
     {
+        GraphicsContext gc = mapCanvas.getGraphicsContext2D();
+
         if(isMapLoaded){
             isMapLoaded=false;
-            reprint();
+            gc.clearRect(0,0,mapCanvas.getWidth(),mapCanvas.getHeight());
         }
         isMapLoaded=true;
         if(coordinates != null)
@@ -114,7 +136,7 @@ public class MapDisplayer extends Canvas
 //            heightBlock = height / coordinates.length;
 //            System.out.printf("width=%f, height=%f\n",width,height);
 //            System.out.printf("widthBlock=%f, heightBlock=%f\n",widthBlock,heightBlock);
-            GraphicsContext gc = getGraphicsContext2D();
+
 
             for(int i = 0; i < coordinates.length;i++) {
                 for(int j = 0; j<coordinates[i].length; j++) {
@@ -143,20 +165,68 @@ public class MapDisplayer extends Canvas
         }
     }
 
+    public void showPoints(String movesSt)
+    {
+        GraphicsContext gc = pointCanvas.getGraphicsContext2D();
+        if(isPointExists){
+            isPointExists=false;
+            gc.clearRect(0,0,planeCanvas.getWidth(),planeCanvas.getHeight());
+        }
+        isPointExists=true;
+        try {
+            Image img = new Image(new FileInputStream("./src/sample/images/point.png"));
+
+            String[] moves = movesSt.split(",");
+            int x=(int)planeX;
+            int y=(int)planeY;
+            for (int i = 0; i < moves.length; i++) {
+                String move=moves[i];
+                switch (move){
+                    case "Up":
+                    {
+                        x--;
+                        break;
+                    }
+                    case "Right":
+                    {
+                        y++;
+                        break;
+                    }
+                    case "Down":
+                    {
+                        x++;
+                        break;
+                    }
+                    case "Left":
+                    {
+                        y--;
+                        break;
+                    }
+                }
+                gc.drawImage(img, x*widthBlock, y*heightBlock,widthBlock*2,heightBlock*2);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void movePlane(double posX, double posY) {
+        GraphicsContext gc = planeCanvas.getGraphicsContext2D();
+
         if(isPlaneExists){
             isPlaneExists=false;
-            reprint();
+            gc.clearRect(0,0,planeCanvas.getWidth(),planeCanvas.getHeight());
         }
         isPlaneExists=true;
         planeX = (int)(posX / widthBlock);
         planeY = (int)(posY / heightBlock);
+//        System.out.println("plane:"+planeX+","+planeY);
 
         try {
             Image img = new Image(new FileInputStream("./src/sample/images/plane.png"));
-            GraphicsContext gc = getGraphicsContext2D();
             //redraw(); // redraw the map
-            gc.drawImage(img, planeX*widthBlock, planeY*heightBlock,widthBlock*10,heightBlock*10); // draw plane
+            gc.drawImage(img, planeX*widthBlock, planeY*heightBlock,widthBlock*15,heightBlock*15); // draw plane
+//            System.out.printf("print plane at %.2f,%.2f\n",planeX*widthBlock,planeY*heightBlock);
 
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
@@ -165,20 +235,22 @@ public class MapDisplayer extends Canvas
     }
 
     public void markDestByMouse(double posX, double posY) {
+        GraphicsContext gc = xCanvas.getGraphicsContext2D();
+
         if(isMarkedOnMap){
             isMarkedOnMap=false;
-            reprint();
+            gc.clearRect(0,0,xCanvas.getWidth(),xCanvas.getHeight());
         }
         isMarkedOnMap=true;
         destX = (int)(posX / widthBlock);
         destY = (int)(posY / heightBlock);
+        System.out.println("x:"+destX+","+destY);
 
         // It's opposite from corX and corY because the (0,0) is top left
         // and the width means columns and height means rows.
 
         try {
             Image img = new Image(new FileInputStream("./src/sample/images/x.jpeg"));
-            GraphicsContext gc = getGraphicsContext2D();
             //redraw(max); // redraw the map
             //movePlane(planeX, planeY); // redraw the plane location
             gc.drawImage(img, destX*widthBlock, destY*heightBlock); // draw the dest
@@ -189,27 +261,54 @@ public class MapDisplayer extends Canvas
         }
     }
 
-    public void markDestByPosition(int posX, int posY) {
+//    public void markDestByPosition(int posX, int posY) {
+//
+//        int corX = posX;
+//        int corY = posY;
+//
+//        // It's opposite from corX and corY because the (0,0) is top left
+//        // and the width means columns and height means rows.
+//        destX = corX;
+//        destY = corY;
+//
+//        try {
+//            Image img = new Image(new FileInputStream("./resources/close.png"));
+//            GraphicsContext gc = getGraphicsContext2D();
+//            //redraw(max); // redraw the map
+//            //movePlane(planeX, planeY); // redraw the plane location
+//            gc.drawImage(img, corX*widthBlock, corY*heightBlock); // draw the dest
+//
+//        } catch (FileNotFoundException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//    }
 
-        int corX = posX;
-        int corY = posY;
+    public void connectToServer(final Client client) {
+        this.client=client;
+        Timer myTimer = new Timer();
+        myTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Double lat = client.getValue("/position/latitude-deg");
+                Double lon = client.getValue("/position/longitude-deg");
 
-        // It's opposite from corX and corY because the (0,0) is top left
-        // and the width means columns and height means rows.
-        destX = corX;
-        destY = corY;
+                double x =(((lat-initX)/distance));//lat=initX+x*distance;
+                double y=(((lon-initY)/distance));//lon=initY+y*distance;
 
-        try {
-            Image img = new Image(new FileInputStream("./resources/close.png"));
-            GraphicsContext gc = getGraphicsContext2D();
-            //redraw(max); // redraw the map
-            //movePlane(planeX, planeY); // redraw the plane location
-            gc.drawImage(img, corX*widthBlock, corY*heightBlock); // draw the dest
+//                System.out.println("init:"+initX+","+initY);
+//                System.out.println("pos:"+lat+","+lon);
+//                System.out.println("distance:"+distance);
+//                System.out.println("block:"+widthBlock+","+heightBlock);
+//                System.out.println("result:"+x+","+y/1000*-1);
+//                System.out.println("**************");
 
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+                movePlane(x/1000,y/1000*-1);
+            }
+        },1000,250);
     }
 
+    public double[][] getCoordinates() {
+        return coordinates;
+    }
 }

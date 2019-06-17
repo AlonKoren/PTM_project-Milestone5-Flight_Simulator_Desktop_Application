@@ -19,7 +19,8 @@ public class Radio_ButtonsController extends Pane {
     private static final String folderPath="../PTM2 Project/scripts";
 
     Property<String> scriptProperty=new SimpleStringProperty();
-    Property<Boolean> booleanProperty=new SimpleBooleanProperty();
+    Property<Boolean> autopilotProperty=new SimpleBooleanProperty();
+    Property<Boolean> manualProperty=new SimpleBooleanProperty();
 
     public Radio_ButtonsController() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../JavaFX Components/radio_buttons.fxml"));
@@ -69,19 +70,22 @@ public class Radio_ButtonsController extends Pane {
         return scriptProperty;
     }
 
-    public void bindRadio(Property<Boolean> booleanProperty)
+    public void bindRadio(Property<Boolean> autopilotProperty,Property<Boolean> manualProperty)
     {
-        booleanProperty.bind(this.booleanProperty);
+        autopilotProperty.bind(this.autopilotProperty);
+        manualProperty.bind(this.manualProperty);
     }
 
     @FXML
     void autoPilotEnable(MouseEvent mouseEventvent)
     {
-        this.booleanProperty.setValue(true);
+        this.autopilotProperty.setValue(true);
+        this.manualProperty.setValue(false);
     }
     @FXML
     void autoPilotDisable(MouseEvent mouseEventvent)
     {
-        this.booleanProperty.setValue(false);
+        this.manualProperty.setValue(true);
+        this.autopilotProperty.setValue(false);
     }
 }

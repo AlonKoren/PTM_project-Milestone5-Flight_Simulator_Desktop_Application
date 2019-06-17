@@ -1,8 +1,13 @@
 package sample.viewModel;
 
+import alon.flightsim.client.Client;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 
@@ -13,6 +18,13 @@ public class JoystickController extends Pane {
     @FXML
     private Circle outerjoystick, btn_joystick;
 
+    @FXML
+    private Slider rudderSlider;
+
+    @FXML
+    private Slider throttleSlider;
+
+    Client client;
 
     private double radius = 0;
     private double centerX = 0; // mouse location
@@ -32,6 +44,26 @@ public class JoystickController extends Pane {
             throw new RuntimeException(exception);
         }
         initialize();
+
+        rudderSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                System.out.println("rudderSlider="+newValue);
+                client.set("/controls/flight/rudder",newValue.doubleValue());
+            }
+        });
+        throttleSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                System.out.println("throttleSlider="+newValue);
+                client.set("/controls/engines/current-engine/throttle",newValue.doubleValue());
+
+            }
+        });
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public void initialize() {
@@ -43,20 +75,19 @@ public class JoystickController extends Pane {
         System.out.println(initializedCenterX + "," + initializedCenterY);
     }
 
-
     public void circleOnMouseDraggedEventHandler(MouseEvent mouseEvent) {
-        System.out.println("circleOnMouseDraggedEventHandler");
+//        System.out.println("circleOnMouseDraggedEventHandler");
         dragable(mouseEvent);
     }
 
     public void circleOnMousePressedEventHandler(MouseEvent mouseEvent) {
-        System.out.println("circleOnMousePressedEventHandler");
+//        System.out.println("circleOnMousePressedEventHandler");
         dragable(mouseEvent);
 
     }
 
     public void circleOnMouseReleasedEventHandler(MouseEvent mouseEvent) {
-        System.out.println("circleOnMouseReleasedEventHandler");
+//        System.out.println("circleOnMouseReleasedEventHandler");
         dragable_exit();
     }
 
@@ -113,19 +144,30 @@ public class JoystickController extends Pane {
             btn_joystick.setLayoutY(initializedCenterY + y2 - centerY);
         }
 
-//        // Setting the Aileron & Elevator values
+        // Setting the Aileron & Elevator values
+        client.set("/controls/flight/aileron",(x2 - centerX) / radius);
+        client.set("/controls/flight/elevator",(centerY - y2) / radius);
 //        aileron.set((x2 - centerX) / radius);
 //        elevator.set((centerY - y2) / radius);
-//
+
 //        viewModel.updateAileronAndElevator();
-        //System.out.println("(airleron, elevator) = ("+aileron.get()+","+elevator.get()+")");
+//        System.out.println("(airleron, elevator) = ("+aileron.get()+","+elevator.get()+")");
     }
 
     public void dragable_exit() {
         btn_joystick.setLayoutX(initializedCenterX);
         btn_joystick.setLayoutY(initializedCenterY);
 
+        client.set("/controls/flight/aileron",0.0);
+        client.set("/controls/flight/elevator",0.0);
 //        aileron.set(0);
 //        elevator.set(0);
+    }
+
+    public void getCurrentValues() {
+        Double rudderVal = client.getValue("/controls/flight/rudder");
+        Double throttleVal = client.getValue("/controls/engines/current-engine/throttle");
+        rudderSlider.setValue(rudderVal);
+        throttleSlider.setValue(throttleVal);
     }
 }

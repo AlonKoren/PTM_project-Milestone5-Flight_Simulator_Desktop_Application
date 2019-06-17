@@ -1,5 +1,6 @@
 package sample.viewModel;
 
+import alon.flightsim.client.Client;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
@@ -9,7 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import view.MapDisplayer;
+import sample.Model.PTMClient;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,6 +20,8 @@ public class MapController extends Pane {
 
     @FXML
     MapDisplayer mapCanvas;
+
+    Client client;
 
     private static final String folderPath="./src/sample/CSV/";
 
@@ -33,6 +36,10 @@ public class MapController extends Pane {
             throw new RuntimeException(exception);
         }
 //        readCSV();
+    }
+
+    public void bind(Client client){
+        this.client=client;
     }
 
     public void readCSV(File fileCSV) {
@@ -74,7 +81,10 @@ public class MapController extends Pane {
             String ip=ipProperty.get();
             String port=newValue;
             //TODO
-            System.out.println("sim:"+ip+":"+port);
+            this.client.connect(ip,Integer.parseInt(port));
+//            System.out.println("sim:"+ip+":"+port);
+
+            mapCanvas.connectToServer(this.client);
 
         });
     }
@@ -100,6 +110,15 @@ public class MapController extends Pane {
             String ip=ipProperty.get();
             String port=newValue;
             //TODO
+            try {
+                PTMClient ptmClient=new PTMClient(ip,Integer.parseInt(port));
+                String ans = ptmClient.sendMatrix(mapCanvas.getCoordinates(), (int) mapCanvas.planeX, (int) mapCanvas.planeY, mapCanvas.destX, mapCanvas.destY);
+                ptmClient.close();
+                System.out.println(ans);
+                mapCanvas.showPoints(ans);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             System.out.println("ptm:"+ip+":"+port);
         });
     }

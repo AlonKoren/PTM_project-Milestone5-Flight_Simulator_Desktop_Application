@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 
 public class SampleController extends SplitPane
 {
-    Client client=new SimpleClient();
+    final Client client=new SimpleClient();
 
     Property<Boolean> booleanProperty=new SimpleBooleanProperty();
 
@@ -43,7 +43,12 @@ public class SampleController extends SplitPane
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+        bind();
+    }
 
+    public void bind(){
+        leftSide.bind(client);
+        rightSide.setClient(client);
     }
 
 
