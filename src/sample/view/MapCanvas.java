@@ -13,6 +13,7 @@ public class MapCanvas extends Canvas implements Redrawable {
     double max;
 
     public void setCoordinates(double[][] coordinates) {
+
         this.coordinates = coordinates;
         this.setBlockSize(getWidth() / coordinates[0].length,getHeight() / coordinates.length);
         this.max = Arrays.stream(coordinates).flatMapToDouble(Arrays::stream).max().getAsDouble();

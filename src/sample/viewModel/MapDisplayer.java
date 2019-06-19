@@ -58,6 +58,7 @@ public class MapDisplayer extends Pane
         double distance=Double.parseDouble(records.get(1).get(0));
         List<List<String>> lists = records.subList(2, records.size());
         double[][] coordinates = lists.stream().map(strings -> strings.stream().mapToDouble(Double::parseDouble).toArray()).toArray(double[][]::new);
+
         setMapData(coordinates,x,y, distance);
     }
 
@@ -127,7 +128,7 @@ public class MapDisplayer extends Pane
                 double y=(((lat-initY+distance)/distance));//lon=initY+y*distance;.
 //                double x =(((lat-initX)/distance));//lat=initX+x*distance;
 //                double y=(((lon-initY)/distance));//lon=initY+y*distance;.
-                System.out.println(lat+","+lon+":"+heading);
+//                System.out.println(lat+","+lon+":"+heading);
                 planeCanvas.setHeading(heading);
                 movePlane(x,y*-1);
             }

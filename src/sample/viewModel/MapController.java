@@ -134,11 +134,9 @@ public class MapController extends Pane {
         if (!isclick) return;
         try {
             PTMClient ptmClient=new PTMClient(ip,Integer.parseInt(port));
-            double[][] doubles = Arrays.stream(mapCanvas.getCoordinates())
-                    .map(doubles1 -> Arrays.stream(doubles1)
-                            .map(d -> d+30).toArray()).toArray(double[][]::new);
-            String ans = ptmClient.sendMatrix(doubles, (int) mapCanvas.planeCanvas.getPlaneX(), (int) mapCanvas.planeCanvas.getPlaneY(),
-                    (int)mapCanvas.xCanvas.getDestX(), (int)mapCanvas.xCanvas.getDestY());
+            double[][] doubles =mapCanvas.getCoordinates();
+            String ans = ptmClient.sendMatrix(doubles, (int) mapCanvas.planeCanvas.getPlaneY(), (int) mapCanvas.planeCanvas.getPlaneX(),
+                     (int)mapCanvas.xCanvas.getDestY(), (int)mapCanvas.xCanvas.getDestX());
             ptmClient.close();
             System.out.println(ans);
             mapCanvas.showPoints(ans);

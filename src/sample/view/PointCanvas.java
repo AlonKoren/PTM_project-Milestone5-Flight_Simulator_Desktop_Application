@@ -50,22 +50,22 @@ public class PointCanvas extends Canvas implements Redrawable{
                 String move = moves[i];
                 gc.setStroke(Color.BLACK);
                 switch (move) {
-                    case "Up": {
+                    case "Left": {
                         gc.strokeLine(x * widthBlock, y * heightBlock, (x - 1) * widthBlock, y * heightBlock);
                         x--;
                         break;
                     }
-                    case "Right": {
+                    case "Down": {
                         gc.strokeLine(x * widthBlock, y * heightBlock, x * widthBlock, (y + 1) * heightBlock);
                         y++;
                         break;
                     }
-                    case "Down": {
+                    case "Right": {
                         gc.strokeLine(x * widthBlock, y * heightBlock, (x + 1) * widthBlock, y * heightBlock);
                         x++;
                         break;
                     }
-                    case "Left": {
+                    case "Up": {
                         gc.strokeLine(x * widthBlock, y * heightBlock, x * widthBlock, (y - 1) * heightBlock);
                         y--;
                         break;
@@ -78,7 +78,7 @@ public class PointCanvas extends Canvas implements Redrawable{
             for (int i = 1; i < indexs.size(); i++) {
                 double v = Math.toDegrees(Math.atan2(indexs.get(i).column - indexs.get(i - 1).column, indexs.get(i).row - indexs.get(i - 1).row));
                 if (v<0) v+=360;
-                System.out.println(v);
+//                System.out.println(v);
             }
 
         }
