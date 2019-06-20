@@ -5,7 +5,7 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.Pane?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="63.0" prefWidth="742.0" type="javafx.scene.layout.Pane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="63.0" prefWidth="742.0" type="javafx.scene.layout.Pane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <RadioButton layoutX="64.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#autoPilotEnable" prefHeight="21.0" prefWidth="104.0" text="Autopilot">
          <toggleGroup>

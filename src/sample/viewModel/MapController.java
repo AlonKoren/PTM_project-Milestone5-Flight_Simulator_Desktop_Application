@@ -1,11 +1,15 @@
 package sample.viewModel;
 
 import alon.flightsim.client.Client;
+import javafx.beans.property.Property;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
@@ -15,16 +19,18 @@ import sample.Model.PTMClient;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.function.DoubleUnaryOperator;
-import java.util.function.Function;
 
 public class MapController extends Pane {
 
     @FXML
     MapDisplayer mapCanvas;
+    @FXML
+    Button load;
+    @FXML
+    Button calc;
 
     Client client;
+    Property<Boolean> enableProperty;
 
     private static final String folderPath="./src/sample/CSV/";
 
@@ -41,8 +47,21 @@ public class MapController extends Pane {
 //        readCSV();
     }
 
-    public void bind(Client client){
+    public void bind(Client client, Property<Boolean> enableProperty){
         this.client=client;
+        this.enableProperty=enableProperty;
+
+        enableProperty.addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue){
+                    mapCanvas.setDisable(false);
+                    load.setDisable(false);
+                    calc.setDisable(false);
+                }
+            }
+        });
+
     }
 
     public void readCSV(File fileCSV) {
@@ -88,6 +107,8 @@ public class MapController extends Pane {
 //            System.out.println("sim:"+ip+":"+port);
 
             mapCanvas.connectToServer(this.client);
+
+            enableProperty.setValue(true);
 
         });
     }

@@ -88,4 +88,8 @@ public class Radio_ButtonsController extends Pane {
         this.manualProperty.setValue(true);
         this.autopilotProperty.setValue(false);
     }
+
+    public void enableAll() {
+        this.setDisable(false);
+    }
 }

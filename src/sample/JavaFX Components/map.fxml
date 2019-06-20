@@ -7,9 +7,9 @@
 <fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="406.0" prefWidth="364.0" type="javafx.scene.layout.Pane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Button fx:id="connect" layoutX="26.0" layoutY="36.0" mnemonicParsing="false" onMouseClicked="#connectToServer" text="Connect" />
-      <Button fx:id="load" layoutX="117.0" layoutY="36.0" mnemonicParsing="false" onMouseClicked="#openFileDialogue" text="Load data" />
-      <Button fx:id="calc" layoutX="218.0" layoutY="36.0" mnemonicParsing="false" onMouseClicked="#calcPath" text="Calculate path" />
+      <Button fx:id="load" disable="true" layoutX="117.0" layoutY="36.0" mnemonicParsing="false" onMouseClicked="#openFileDialogue" text="Load data" />
+      <Button fx:id="calc" disable="true" layoutX="218.0" layoutY="36.0" mnemonicParsing="false" onMouseClicked="#calcPath" text="Calculate path" />
 <!--      <Canvas height="302.0" layoutX="20.0" layoutY="81.0" width="316.0" />-->
-      <MapDisplayer fx:id="mapCanvas" layoutX="20.0" layoutY="81.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#selectDestination" prefHeight="300.0" prefWidth="300.0" />
+      <MapDisplayer fx:id="mapCanvas" disable="true" layoutX="20.0" layoutY="81.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#selectDestination" prefHeight="300.0" prefWidth="300.0" />
    </children>
 </fx:root>

@@ -1,6 +1,7 @@
 package sample.viewModel;
 
 
+import Matrices.Index;
 import alon.flightsim.client.Client;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -100,6 +101,17 @@ public class MapDisplayer extends Pane
     {
         pointCanvas.showPoints(movesSt,(int)planeCanvas.getPlaneX(),(int)planeCanvas.getPlaneY());
         pointCanvas.redraw();
+
+        LinkedList<Index> indexs = pointCanvas.getIndexs();
+
+        System.out.println("indexs:"+indexs.size()+"="+indexs.toString());
+        for (int i = 1; i < indexs.size(); i++) {
+            double v = Math.toDegrees(Math.atan2(indexs.get(i).column - indexs.get(i - 1).column, indexs.get(i).row - indexs.get(i - 1).row));
+            if (v<0) v+=360;
+//            System.out.println(v);
+        }
+
+
     }
 
     public void movePlane(double posX, double posY)

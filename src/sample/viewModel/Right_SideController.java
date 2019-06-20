@@ -52,7 +52,9 @@ public class Right_SideController extends SplitPane {
             {
                 System.out.println(("disable")+" autopilot");
                 joystick.setDisable(false);
-                joystick.getCurrentValues();
+                try {
+                    joystick.getCurrentValues();
+                }catch (NullPointerException ignored){}
                 flyMain.setAutoPilot(false);
             }
         });
@@ -66,5 +68,9 @@ public class Right_SideController extends SplitPane {
     }
     public void setClient(Client client) {
         joystick.setClient(client);
+    }
+
+    public void enableAll() {
+        radioButtons.enableAll();
     }
 }
