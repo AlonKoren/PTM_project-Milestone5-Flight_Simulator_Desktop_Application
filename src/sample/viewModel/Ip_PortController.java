@@ -39,7 +39,6 @@ public class Ip_PortController extends Pane
     }
 
     public void bind(StringProperty ipProperty,StringProperty portProperty){
-//        System.out.println("bind");
         ipProperty.bind(this.ipProperty);
         portProperty.bind(this.portProperty);
     }
@@ -47,7 +46,6 @@ public class Ip_PortController extends Pane
     @FXML
     public void sendData(MouseEvent mouseEvent)
     {
-//        System.out.println("send data");
         ipProperty.setValue(ipTextField.getText());
         portProperty.setValue(portTextField.getText());
     }
@@ -55,7 +53,6 @@ public class Ip_PortController extends Pane
     @FXML
     public void closeWindow(MouseEvent sendData)
     {
-//        System.out.println("closeWindow");
         ((Stage)this.getScene().getWindow()).close();
     }
 }

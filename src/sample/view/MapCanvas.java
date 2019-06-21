@@ -55,7 +55,6 @@ public class MapCanvas extends Canvas implements Redrawable {
                         red = Math.abs(255 - ((coordinates[i][j] - (max/2)) * (255 / max) * 2));
                         green = 255;
                     }
-//                    System.out.println("red="+red+", green="+green+",i="+i+",j="+j+",cor="+coordinates[i][j]);
                     gc.setFill(new Color(red/255, green/255, 0, 1));
                     gc.fillRect(j*widthBlock, i*heightBlock, widthBlock, heightBlock);
                     gc.fillText((int)coordinates[i][j] + "", j*widthBlock + 4, i*heightBlock + heightBlock - 4);

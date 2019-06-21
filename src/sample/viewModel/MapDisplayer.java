@@ -28,11 +28,8 @@ public class MapDisplayer extends Pane
 
     double initX, initY;
     double distance;
-//    int destX, destY; // position of plane dest
-//    double planeX, planeY; // position of plane.
     Client client;
-//    String path;
-//    double initMapPlaneX, initMapPlaneY;
+
     public MapDisplayer()
     {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../JavaFX Components/map_canvass.fxml"));
@@ -59,7 +56,6 @@ public class MapDisplayer extends Pane
         double distance=Double.parseDouble(records.get(1).get(0));
         List<List<String>> lists = records.subList(2, records.size());
         double[][] coordinates = lists.stream().map(strings -> strings.stream().mapToDouble(Double::parseDouble).toArray()).toArray(double[][]::new);
-
         setMapData(coordinates,x,y, distance);
     }
 
@@ -85,7 +81,6 @@ public class MapDisplayer extends Pane
         this.distance = distance;
         double widthBlock = (mapCanvas.getWidth()) / coordinates[0].length;
         double heightBlock = (mapCanvas.getHeight()) / coordinates.length;
-
         mapCanvas.setCoordinates(coordinates);
         planeCanvas.setBlockSize(widthBlock,heightBlock);
         xCanvas.setBlockSize(widthBlock,heightBlock);
@@ -101,17 +96,11 @@ public class MapDisplayer extends Pane
     {
         pointCanvas.showPoints(movesSt,(int)planeCanvas.getPlaneX(),(int)planeCanvas.getPlaneY());
         pointCanvas.redraw();
-
         LinkedList<Index> indexs = pointCanvas.getIndexs();
-
-        System.out.println("indexs:"+indexs.size()+"="+indexs.toString());
         for (int i = 1; i < indexs.size(); i++) {
-            double v = Math.toDegrees(Math.atan2(indexs.get(i).column - indexs.get(i - 1).column, indexs.get(i).row - indexs.get(i - 1).row));
+            double v = 90- Math.toDegrees(Math.atan2(indexs.get(i).column - indexs.get(i - 1).column, indexs.get(i).row - indexs.get(i - 1).row)); //todo check 90-deg correct
             if (v<0) v+=360;
-//            System.out.println(v);
         }
-
-
     }
 
     public void movePlane(double posX, double posY)
@@ -136,11 +125,8 @@ public class MapDisplayer extends Pane
                 Double lat = client.getValue("/position/latitude-deg");
                 Double lon = client.getValue("/position/longitude-deg");
                 Double heading = client.getValue("/instrumentation/heading-indicator/indicated-heading-deg");
-                double x =(lon-initX+distance)/distance;//lat=initX+x*distance;
-                double y=(((lat-initY+distance)/distance));//lon=initY+y*distance;.
-//                double x =(((lat-initX)/distance));//lat=initX+x*distance;
-//                double y=(((lon-initY)/distance));//lon=initY+y*distance;.
-//                System.out.println(lat+","+lon+":"+heading);
+                double x =(lon-initX+distance)/distance;
+                double y=(((lat-initY+distance)/distance));
                 planeCanvas.setHeading(heading);
                 movePlane(x,y*-1);
             }
@@ -151,5 +137,4 @@ public class MapDisplayer extends Pane
     {
         return mapCanvas.getCoordinates();
     }
-
 }

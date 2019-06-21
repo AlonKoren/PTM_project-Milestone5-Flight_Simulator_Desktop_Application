@@ -36,7 +36,6 @@ public class Radio_ButtonsController extends Pane {
     }
     public void openFileDialogue(MouseEvent mouseEvent)
     {
-        System.out.println("hello");
         FileChooser chooser=new FileChooser();
         chooser.setInitialDirectory(new File(folderPath));
         File file = chooser.showOpenDialog(null);
@@ -59,7 +58,6 @@ public class Radio_ButtonsController extends Pane {
     private void showScript(String script)
     {
         scriptProperty.setValue(script);
-//        this.script.appendText(script);
     }
 
     public String getScriptProperty() {

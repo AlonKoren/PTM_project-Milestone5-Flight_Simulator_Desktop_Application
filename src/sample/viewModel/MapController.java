@@ -44,41 +44,34 @@ public class MapController extends Pane {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
-//        readCSV();
     }
 
     public void bind(Client client, Property<Boolean> enableProperty){
         this.client=client;
         this.enableProperty=enableProperty;
 
-        enableProperty.addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (newValue){
-                    mapCanvas.setDisable(false);
-                    load.setDisable(false);
-                    calc.setDisable(false);
-                }
+        enableProperty.addListener((observable, oldValue, newValue) -> {
+            if (newValue){
+                mapCanvas.setDisable(false);
+                load.setDisable(false);
+                calc.setDisable(false);
             }
         });
 
     }
 
     public void readCSV(File fileCSV) {
-//        File fileCSV = new File("./src/sample/map-Honolulu.csv");
         try {
             mapCanvas.setMapData(fileCSV);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         mapCanvas.redraw();
-//        mapCanvas.movePlane(10,10);
     }
 
     @FXML
     public void openFileDialogue(MouseEvent mouseEvent)
     {
-        System.out.println("Choose CSV file");
         FileChooser chooser=new FileChooser();
         chooser.setInitialDirectory(new File(folderPath));
         File file = chooser.showOpenDialog(null);
@@ -102,12 +95,8 @@ public class MapController extends Pane {
         portProperty.addListener((observable, oldValue, newValue) -> {
             String ip=ipProperty.get();
             String port=newValue;
-            //TODO
             this.client.connect(ip,Integer.parseInt(port));
-//            System.out.println("sim:"+ip+":"+port);
-
             mapCanvas.connectToServer(this.client);
-
             enableProperty.setValue(true);
 
         });
@@ -119,7 +108,6 @@ public class MapController extends Pane {
     public void selectDestination(MouseEvent mouseEvent)
     {
         isclick=true;
-        //System.out.println(mouseEvent.getX()+","+mouseEvent.getY());
         mapCanvas.markDestByMouse(mouseEvent.getX(),mouseEvent.getY());
         if (flag){
             calcPath(ipProperty.get(),portProperty.get());
@@ -159,11 +147,9 @@ public class MapController extends Pane {
             String ans = ptmClient.sendMatrix(doubles, (int) mapCanvas.planeCanvas.getPlaneY(), (int) mapCanvas.planeCanvas.getPlaneX(),
                      (int)mapCanvas.xCanvas.getDestY(), (int)mapCanvas.xCanvas.getDestX());
             ptmClient.close();
-            System.out.println(ans);
             mapCanvas.showPoints(ans);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("ptm:"+ip+":"+port);
     }
 }

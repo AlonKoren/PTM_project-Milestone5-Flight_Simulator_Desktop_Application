@@ -11,8 +11,7 @@ public class Main extends Application
     public void start(Stage primaryStage) throws Exception
     {
         SampleController controller=new SampleController();
-//        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Alon Koren");
         primaryStage.setScene(new Scene(controller, 1123, 456));
         primaryStage.show();
     }

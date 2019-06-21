@@ -51,15 +51,8 @@ public class SampleController extends SplitPane
     public void bind(){
         leftSide.bind(client,enableProperty);
         rightSide.setClient(client);
-        enableProperty.addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (newValue) rightSide.enableAll();
-            }
+        enableProperty.addListener((observable, oldValue, newValue) -> {
+            if (newValue) rightSide.enableAll();
         });
     }
-
-
-
-
 }

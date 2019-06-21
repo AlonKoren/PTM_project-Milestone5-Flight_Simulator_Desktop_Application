@@ -42,7 +42,6 @@ public class Right_SideController extends SplitPane {
         autopilotProperty.addListener((observable, oldValue, newValue) -> {
             if (newValue)
             {
-                System.out.println("enable" + " autopilot");
                 joystick.setDisable(true);
                 flyMain.setAutoPilot(true);
             }
@@ -50,7 +49,6 @@ public class Right_SideController extends SplitPane {
         manualProperty.addListener((observable, oldValue, newValue) -> {
             if (newValue)
             {
-                System.out.println(("disable")+" autopilot");
                 joystick.setDisable(false);
                 try {
                     joystick.getCurrentValues();
@@ -62,7 +60,6 @@ public class Right_SideController extends SplitPane {
         displayScript.scriptProperty.bind(radioButtons.scriptProperty);
         displayScript.scriptProperty.addListener((observable, oldValue, newValue) -> {
             flyMain.runSimulator(newValue);
-//                System.out.println(newValue);
         });
         radioButtons.bindRadio(autopilotProperty,manualProperty);
     }
