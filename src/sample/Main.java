@@ -12,7 +12,7 @@ public class Main extends Application
     {
         SampleController controller=new SampleController();
         primaryStage.setTitle("Alon Koren");
-        primaryStage.setScene(new Scene(controller, 1123, 456));
+        primaryStage.setScene(new Scene(controller, 1123, 480));
         primaryStage.show();
     }
 
