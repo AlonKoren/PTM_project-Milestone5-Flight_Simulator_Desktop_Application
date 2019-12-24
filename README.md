@@ -24,7 +24,7 @@ When a CSV file is loaded then a map of the uploaded data is displayed.
 The map will be displayed in colors based on the height of each point in the map, the lower the area the color will be red and the higher the area the color will be greener.
 We will sample from the simulator the exact location of the aircraft, as a result, an icon will be displayed in the same location on the map.
 
-* **Calculate path** - The Calculate path button will open a popup window and by entering ip and port we will connect to a server that solves search problems (a server that I built on milestones 1-3).
+* **Calculate path** - The Calculate path button will open a popup window and by entering ip and port we will connect to a server that solves search problems ([A server that I built on milestones 1-3](https://github.com/AlonKoren/PTM_project-Milestones1-3)).
 Clicking on any point on the map will set a destination for the aircraft, and the server will calculate the cheapest route to that point.
 
 * **Load + Autopilot** – Loads the script with the airplane commands and thanks to the Interpreter that I built, the plane goes into autopilot mode and executes the commands in the script.
