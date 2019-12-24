@@ -6,7 +6,7 @@
 
 ## Introduction
 
-In this repository, I will introduce milestone 5 in the final project of the Advanced Software Development course.
+In this repository, I will introduce milestone 5 in the final project of the Advanced Software Development course.<br />
 The goal in this milestone was to Build and design a GUI for the flight simulator using JavaFX, to calculate the flight route and fly the plane using the previous milestones.
 
 
@@ -50,3 +50,6 @@ For building the app, I chose to use the MVVM architecture.
   <img src="/readme_images/MVVM_architecture.jpg" width="550">
 </p>
 
+<br /><br /><br /><br />
+**This project was made for my Advanced Software Development Course, Which was taught by Dr. Eliahu Khalastchi<br /> at The College of Management Academic Studies .<br />
+You are welcome to look at my project presentation in the video attached here ([Project Presentation Video](https://youtu.be/NNdkB9Fo16Y)).<br />**
